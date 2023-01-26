@@ -1,0 +1,49 @@
+//Server
+import random 
+import socket 
+import threading 
+ 
+class QOTDServer: 
+    def __init__(self, host='192.168.149.130', port=8888): 
+        self.host = host         
+        self.port = port 
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)         
+        self.server.bind((self.host, self.port))         
+        self.quotes = [ 
+            "Be like water that flow through the river.", 
+            "As the water flow, it can be anything that fit its environment.",
+        ] 
+    def listen(self): 
+        self.server.listen()        
+        while True:            
+        client_socket, client_address = self.server.accept()           
+        print(f'Connection from {client_address} has been established.')             client_socket.send(random.choice(self.quotes).encode())             client_socket.close() 
+             
+    def start(self):        
+    print(f'Server listening on {self.host}:{self.port}...')         
+    listen_thread = threading.Thread(target=self.listen)        
+    listen_thread.start() 
+         
+if __name__ == '__main__':   
+server = QOTDServer()    
+server.start() 
+
+
+//Client
+import socket
+
+class QOTDClient:     
+def __init__(self, host='192.168.149.130', port=8888): 
+        self.host = host         
+        self.port = port 
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+ 
+    def get_quote(self):        
+    self.client.connect((self.host, self.port))        
+    quote = self.client.recv(1024).decode()        
+    print(f'Received quote: "{quote}"') 
+    self.client.close() 
+ 
+if __name__ == '__main__':     
+client = QOTDClient()     
+client.get_quote() 
