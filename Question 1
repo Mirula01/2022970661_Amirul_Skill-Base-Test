@@ -66,7 +66,7 @@ int main() {     // define socket     int sockfd;
     char buffer[256]; 
  
     struct sockaddr_in serv_addr = {AF_INET, htons(8000)}; 
-    inet_pton(AF_INET, "172.104.177.86", &serv_addr.sin_addr); 
+    inet_pton(AF_INET, "192.168.149.130", &serv_addr.sin_addr); 
  
     // create socket 
     sockfd = socket(AF_INET, SOCK_STREAM, 0); 
